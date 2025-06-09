@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'slippers',
     "widget_tweaks",
 ]
 
@@ -121,7 +122,7 @@ WSGI_APPLICATION = "cfehome.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
 
@@ -161,6 +162,9 @@ if DATABASE_URL is not None:
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
+
+print("DATABASE ENGINE:", DATABASES["default"])
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -178,10 +182,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Django Allauth Config 
 LOGIN_REDIRECT_URL = "/"
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_VERIFICATION="mandatory"
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_EMAIL_VERIFICATION="optional"
 ACCOUNT_EMAIL_SUBJECT_PREFIX="[CFE] "
-ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
 AUTHENTICATION_BACKENDS = [
     # ...
